@@ -42,6 +42,7 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'devise'
   gem 'spring'
+  gem 'omniauth-facebook'
 end
 
 group :development do
