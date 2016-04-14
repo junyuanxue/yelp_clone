@@ -3,7 +3,6 @@ require 'rails_helper'
 feature 'reviewing' do
   let!(:user) { User.create(email: 'lo@renzo.com', password: 'lolsrenzo') }
   let!(:other_user) { User.create(email: 'other@user.com', password: 'otheruser') }
-
   let!(:kfc) { Restaurant.create(name: 'KFC', user_id: user.id) }
 
   context "user not signed in" do
@@ -16,7 +15,7 @@ feature 'reviewing' do
   context "user signed in" do
     before :each do
       helper_signin
-      helper_leave_review(kfc,"so so", 3)
+      helper_leave_review(kfc, "so so", 3)
     end
 
     scenario 'inserting a review redirect to the main page and show the review' do
@@ -29,13 +28,6 @@ feature 'reviewing' do
       expect(page).to have_content 'so so'
     end
 
-    scenario 'display when a review is created relative to now' do
-      now = Time.parse("2016-04-14 18:02:25 +0100")
-      allow(Time).to receive(:now).and_return(now)
-      click_link 'KFC'
-      expect(page).to have_content '1 hour ago'
-    end
-
     scenario 'user should only be allowed to leave a single review for restaurant' do
       visit '/restaurants'
       click_link 'Review KFC'
@@ -44,11 +36,25 @@ feature 'reviewing' do
     end
 
     scenario "restaurant rating should display the average from all reviews" do
-      review2 = Review.create(thoughts: "out of this world", rating: 5, user_id: other_user.id, restaurant_id: kfc.id)
+      review_2 = Review.create(thoughts: "out of this world", rating: 5, user_id: other_user.id, restaurant_id: kfc.id)
       visit restaurant_path(kfc.id)
       expect(page).to have_content "Average rating: ★★★★☆"
     end
+  end
 
+  context "displaying review time" do
+    let!(:review) { Review.create(thoughts: "meh", rating: 1, restaurant_id: kfc.id, created_at: Time.parse("2016-04-14 14:02:25 +0100")) }
+
+    before do
+      helper_signin
+      now = Time.parse("2016-04-14 18:02:25 +0100")
+      allow(Time).to receive(:now).and_return(now)
+    end
+
+    scenario 'display when a review is created relative to now' do
+      click_link 'KFC'
+      expect(page).to have_content '4 hours ago'
+    end
   end
 
   context "deleting reviews" do
