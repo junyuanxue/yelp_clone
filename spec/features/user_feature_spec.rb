@@ -32,14 +32,10 @@ feature "User can sign in and out" do
   end
 
   context "user not logged in" do
-
     it "should be redirected to the login page when clicking on add restaurant" do
       visit('/')
       click_link('Add a restaurant')
       expect(current_path).to eq(new_user_session_path)
-
     end
-
   end
-
 end
