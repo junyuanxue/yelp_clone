@@ -29,6 +29,13 @@ feature 'reviewing' do
       expect(page).to have_content 'so so'
     end
 
+    scenario 'display when a review is created relative to now' do
+      now = Time.parse("2016-04-14 18:02:25 +0100")
+      allow(Time).to receive(:now).and_return(now)
+      click_link 'KFC'
+      expect(page).to have_content '1 hour ago'
+    end
+
     scenario 'user should only be allowed to leave a single review for restaurant' do
       visit '/restaurants'
       click_link 'Review KFC'
