@@ -7,7 +7,7 @@
       - @restaurant.errors.full_messages.each do |message|
         %li= message
 
-= form_for @restaurant, html: {multipart: true} do |form|
+= form_for @restaurant, html: { multipart: true } do |form|
   = form.label :name
   = form.text_field :name
   = form.file_field :image
