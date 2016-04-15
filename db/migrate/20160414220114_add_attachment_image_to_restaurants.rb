@@ -1,8 +1,8 @@
 class AddAttachmentImageToRestaurants < ActiveRecord::Migration
   def self.up
-    change_table :restaurants do |t|
-      t.attachment :image
-    end
+    # change_table :restaurants do |t|
+      add_attachment :restaurants, :image
+    # end
   end
 
   def self.down
