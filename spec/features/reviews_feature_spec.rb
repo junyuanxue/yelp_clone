@@ -19,7 +19,6 @@ feature 'reviewing' do
     sign_up_correctly
     leave_review
     leave_review
-    p User.first.reviewed_restaurants
     expect(page).to have_content "has reviewed this restaurant already"
   end
 end
